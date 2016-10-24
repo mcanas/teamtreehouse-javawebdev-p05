@@ -12,6 +12,16 @@
         </div>
     </header>
     <div class="container">
+        <form class="sort-form" action="/" method="get">
+            <select name="sort_by">
+                <option value="" th:attrappend="selected=${sort_by==null?'':null}">Sort Order</option>
+                <option value="name_asc" th:attrappend="selected=${sort_by=='name_asc'?'':null}">Name Asc</option>
+                <option value="name_desc" th:attrappend="selected=${sort_by=='name_desc'?'':null}">Name Desc</option>
+                <option value="population_asc" th:attrappend="selected=${sort_by=='population_asc'?'':null}">Population Asc</option>
+                <option value="population_desc" th:attrappend="selected=${sort_by=='population_desc'?'':null}">Population Desc</option>
+            </select>
+            <button type="submit">Sort</button>
+        </form>
         <div class="country" th:each="country : ${countries}">
             <a th:href="@{'/country/' + ${#strings.toLowerCase(country.name)}}">
                 <img th:src="@{'/images/flags/' + ${#strings.toLowerCase(country.name)} + '.png'}" alt="Flag of India"/>

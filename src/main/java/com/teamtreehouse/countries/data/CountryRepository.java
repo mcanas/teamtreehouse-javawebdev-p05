@@ -21,12 +21,32 @@ public class CountryRepository {
         return ALL_COUNTRIES;
     }
 
-    public Country findByName(String name) {
-        Country country = getAllCountries().stream()
-                            .filter(c->c.getName().toLowerCase().equals(name))
-                            .findFirst()
-                            .orElse(null);
+    public List<Country> getAllCountries(String sortBy) {
+        List<Country> countries = getAllCountries();
 
-        return country;
+        if(sortBy != null) {
+            switch (sortBy) {
+                case "name_desc":
+                    countries.sort((c1, c2) -> c2.getName().compareToIgnoreCase(c1.getName()));
+                    break;
+                case "population_asc":
+                    countries.sort((c1, c2) -> Integer.compare(c1.getPopulation(), c2.getPopulation()));
+                    break;
+                case "population_desc":
+                    countries.sort((c1, c2) -> Integer.compare(c2.getPopulation(), c1.getPopulation()));
+                    break;
+                default:
+                    countries.sort((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()));
+            }
+        }
+
+        return countries;
+    }
+
+    public Country findByName(String name) {
+        return getAllCountries().stream()
+                .filter(c->c.getName().toLowerCase().equals(name))
+                .findFirst()
+                .orElse(null);
     }
 }

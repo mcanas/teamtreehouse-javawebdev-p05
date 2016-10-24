@@ -47,27 +47,4 @@ public class Country {
     public void setLanguages(Set<String> languages) {
         this.languages = languages;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Country country = (Country) o;
-
-        if (getPopulation() != country.getPopulation()) return false;
-        if (!getName().equals(country.getName())) return false;
-        if (!getCapital().equals(country.getCapital())) return false;
-        return getLanguages().equals(country.getLanguages());
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = getName().hashCode();
-        result = 31 * result + getCapital().hashCode();
-        result = 31 * result + getPopulation();
-        result = 31 * result + getLanguages().hashCode();
-        return result;
-    }
 }
