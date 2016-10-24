@@ -3,6 +3,8 @@ package com.teamtreehouse.countries.model;
 import java.util.Set;
 import java.util.TreeSet;
 
+
+// Country POJO
 public class Country {
     private String name;
     private String capital;

@@ -17,20 +17,28 @@ public class CountriesController {
     @Autowired
     private CountryRepository repo;
 
+    // Handle Index route, with optional sorting
     @RequestMapping("/")
     public String home(ModelMap model,
                        @RequestParam(value = "sort_by", required = false) String sortBy) {
 
         List<Country> countries = repo.getAllCountries(sortBy);
         model.put("countries", countries);
+        /*
+        *   Pass the sort value back to the view so we can
+        *   determine the selected option if sort_by is present in
+        *   the URL
+        */
         model.put("sort_by", sortBy);
         return "index";
     }
 
+    // Handle country detail page
     @RequestMapping("/country/{name}")
     public String country(ModelMap model,
                           @PathVariable("name") String name) {
 
+        // Find the country by the "name" path variable
         Country country = repo.findByName(name);
         model.put("country", country);
         return "country";
