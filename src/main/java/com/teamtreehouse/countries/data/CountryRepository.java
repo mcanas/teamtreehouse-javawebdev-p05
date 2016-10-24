@@ -20,4 +20,13 @@ public class CountryRepository {
     public List<Country> getAllCountries() {
         return ALL_COUNTRIES;
     }
+
+    public Country findByName(String name) {
+        Country country = getAllCountries().stream()
+                            .filter(c->c.getName().toLowerCase().equals(name))
+                            .findFirst()
+                            .orElse(null);
+
+        return country;
+    }
 }

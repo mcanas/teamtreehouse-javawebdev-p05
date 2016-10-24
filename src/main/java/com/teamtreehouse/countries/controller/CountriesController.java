@@ -22,4 +22,11 @@ public class CountriesController {
         model.put("countries", countries);
         return "index";
     }
+
+    @RequestMapping("/country/{name}")
+    public String country(ModelMap model, @PathVariable("name") String name) {
+        Country country = repo.findByName(name);
+        model.put("country", country);
+        return "country";
+    }
 }
