@@ -14,11 +14,11 @@
     <div class="container">
         <form class="sort-form" action="/" method="get">
             <select name="sort_by">
-                <option value="" th:attrappend="selected=${sort_by==null?'':null}">Sort Order</option>
-                <option value="name_asc" th:attrappend="selected=${sort_by=='name_asc'?'':null}">Name Asc</option>
-                <option value="name_desc" th:attrappend="selected=${sort_by=='name_desc'?'':null}">Name Desc</option>
-                <option value="population_asc" th:attrappend="selected=${sort_by=='population_asc'?'':null}">Population Asc</option>
-                <option value="population_desc" th:attrappend="selected=${sort_by=='population_desc'?'':null}">Population Desc</option>
+                <option value="" th:selected="${sort_by}==null">Sort Order</option>
+                <option th:each="sortBy : ${T(com.teamtreehouse.countries.model.CountrySortBy).values()}"
+                        th:selected="${sortBy.getValue()}==${sort_by}"
+                        th:text="${sortBy.getName()}"
+                        th:value="${sortBy.getValue()}"></option>
             </select>
             <button type="submit">Sort</button>
         </form>

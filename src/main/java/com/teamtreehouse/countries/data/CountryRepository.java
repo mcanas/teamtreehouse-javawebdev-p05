@@ -1,6 +1,7 @@
 package com.teamtreehouse.countries.data;
 
 import com.teamtreehouse.countries.model.Country;
+import com.teamtreehouse.countries.model.CountrySortBy;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -9,7 +10,7 @@ import java.util.TreeSet;
 
 @Component
 public class CountryRepository {
-    // Static repository of country classes
+    // Static repository of country instances
     private static final List<Country> ALL_COUNTRIES = Arrays.asList(
         new Country("Ecuador", "Quito", 16144000, new TreeSet<>(Arrays.asList(new String[]{"Spanish", "Kichwa", "Shuar"}))),
         new Country("France", "Paris", 66736000, new TreeSet<>(Arrays.asList(new String[]{"French"}))),
@@ -23,24 +24,21 @@ public class CountryRepository {
         return ALL_COUNTRIES;
     }
 
-    // Get all countries, with sort order
+    // Get all countries, with sort order specified
     public List<Country> getAllCountries(String sortBy) {
         List<Country> countries = getAllCountries();
 
         if(sortBy != null) {
-            switch (sortBy) {
-                case "name_desc": // Sorting by name descending
-                    countries.sort((c1, c2) -> c2.getName().compareToIgnoreCase(c1.getName()));
-                    break;
-                case "population_asc": // Sorting by population ascending
-                    countries.sort((c1, c2) -> Integer.compare(c1.getPopulation(), c2.getPopulation()));
-                    break;
-                case "population_desc": // Sorting by population descending
-                    countries.sort((c1, c2) -> Integer.compare(c2.getPopulation(), c1.getPopulation()));
-                    break;
-                default: // Default sort order is by name, ascending
-                    countries.sort((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()));
-            }
+            /**
+             * Filter CountrySortBy enum by the sortBy value
+             * to get the relevant comparator lambda
+             */
+            CountrySortBy c = Arrays.stream(CountrySortBy.values())
+                                    .filter((v) -> v.getValue().equalsIgnoreCase(sortBy))
+                                    .findFirst()
+                                    .orElse(null);
+
+            countries.sort(c.getComparator());
         }
 
         return countries;
